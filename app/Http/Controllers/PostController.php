@@ -7,6 +7,7 @@ use App\Jobs\SchedulePostJob;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
+use App\Events\PostUpdated;
 
 
 class PostController extends Controller
@@ -59,32 +60,36 @@ class PostController extends Controller
 
     return redirect()->route('posts.create');
 }
-    public function updateStatus(Post $post)
-    {
-        $post->update(['published' => !$post->published]);
-
-        return back();
-    }
-
-    public function edit(Post $post)
-    {
-        return view('posts.edit', compact('post'));
-    }
-
     public function update(Request $request, Post $post)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
 
-        $post->update([
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
-        ]);
+    $post->update([
+        'title' => $request->input('title'),
+        'content' => $request->input('content'),
+    ]);
 
-        return redirect()->route('posts.create');
-    }
+    event(new PostUpdated($post));
+
+    return redirect()->route('posts.create');
+}
+
+public function updateStatus(Post $post)
+{
+    $post->update(['published' => !$post->published]);
+
+    event(new PostUpdated($post));
+
+    return back();
+}
+
+public function edit(Post $post)
+{
+    return view('posts.edit', compact('post'));
+}
 
     public function destroy(Post $post)
     {

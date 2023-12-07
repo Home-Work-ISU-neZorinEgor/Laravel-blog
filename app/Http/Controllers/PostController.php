@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use App\Events\PostUpdated;
+use App\Events\PostCreated;
 
 
 class PostController extends Controller
@@ -31,20 +32,18 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'publish_option' => 'required|in:now,scheduled',
-            'publish_date' => 'nullable|date_format:Y-m-d\TH:i',
         ]);
     
-        if ($data['publish_option'] === 'scheduled' && $data['publish_date']) {
-            $data['publish_date'] = Carbon::parse($data['publish_date']);
-        } else {
-            $data['published'] = true;
-        }
+        $post = Post::create([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+            'published' => false, // По умолчанию пост создается с неопубликованным статусом
+        ]);
     
-        Post::create($data);
+        event(new PostCreated($post));
     
         return redirect()->route('posts.create');
     }

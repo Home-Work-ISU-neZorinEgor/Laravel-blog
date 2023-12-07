@@ -12,8 +12,8 @@
         <br>
         <label for="publish_option">Publish Option:</label>
         <select name="publish_option" id="publish_option" class="form-input">
-            <option value="now">Publish Now</option>
             <option value="scheduled">Schedule for Later</option>
+            <option value="now">Publish Now</option>
         </select>
         <br>
         <div id="publish_date_input">
@@ -40,26 +40,22 @@
                 @endif
 
                 <div class="post-actions">
-                    <form action="{{ route('posts.schedule', $post->id) }}" method="post">
-                        @csrf
-                        @method('patch')
-                        <button type="submit" class="btn-secondary">Publish Now</button>
-                    </form>
+
 
                     <form action="{{ route('posts.edit', $post) }}" method="get">
-                        <button type="submit" class="btn-edit">✏️</button>
+                        <button type="submit" class="btn-edit">Edit ✏️</button>
                     </form>
 
                     <form action="{{ route('posts.updateStatus', $post) }}" method="post">
                         @csrf
                         @method('patch')
-                        <button type="submit" class="btn-update">➕</button>
+                        <button type="submit" class="btn-update">Add ➕</button>
                     </form>
 
                     <form action="{{ route('posts.destroy', $post) }}" method="post">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn-delete">❌</button>
+                        <button type="submit" class="btn-delete">Delete 🗑️</button>
                     </form>
                 </div>
             </div>

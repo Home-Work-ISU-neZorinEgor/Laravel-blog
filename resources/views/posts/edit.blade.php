@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div style="margin:20px;">
     <div class="edit-form-container">
         <h1>Edit Post</h1>
 
@@ -23,6 +24,7 @@
             <button type="submit" class="edit-form-delete">Delete</button>
         </form>
     </div>
+</div>
 @endsection
 
 <style>

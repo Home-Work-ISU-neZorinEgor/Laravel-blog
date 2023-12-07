@@ -2,79 +2,51 @@
 
 @section('content')
 <div style="margin:20px;">
-    <div class="table-container">
-        <table class="post-table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($posts as $post)
-                    @if ($post->published)
-                        <tr>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ $post->content }}</td>
-                            <td class="post-actions">
-                                <a href="{{ route('posts.show', $post) }}">View Post</a>
-                                | Comments: {{ $post->comments->count() }}
-                                | Status: {{ $post->published ? 'Published' : 'Not Published' }}
-                                |
-                                <form action="{{ route('posts.updateStatus', $post) }}" method="post">
-                                    @csrf
-                                    @method('patch')
-                                    <button type="submit">{{ $post->published ? 'Unpublish' : 'Publish' }}</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    </div>
-
+    @foreach($posts as $post)
+        @if ($post->published)
+            <div class="post-container">
+                <h2 class="post-title">{{ $post->title }}</h2>
+                <p class="post-content">{{ $post->content }}</p>
+                <div class="post-actions">
+                    <a href="{{ route('posts.show', $post) }}">View Post</a>
+                    | Comments: {{ $post->comments->count() }}
+                    |
+                    <form action="{{ route('posts.updateStatus', $post) }}" method="post">
+                        @csrf
+                        @method('patch')
+                        <button type="submit">{{ $post->published ? 'Unpublish' : 'Publish' }}</button>
+                    </form>
+                </div>
+            </div>
+        @endif
+    @endforeach
+</div>
 @endsection
 
 
 
+
 <style>
-.table-container {
-    margin-top: 20px;
-}
+/* Add these styles to your styles.css file */
 
-.post-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.post-table th, .post-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.post-table th {
-    background-color: #f2f2f2;
-}
-
-/* Post Styles */
 .post-container {
     margin-bottom: 20px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .post-title {
     font-size: 1.5em;
     margin-bottom: 10px;
+    color: #333;
 }
 
 .post-content {
     margin-bottom: 15px;
+    color: #555;
 }
 
 .post-actions {
@@ -100,5 +72,6 @@
 .post-actions button:hover {
     background-color: #2980b9;
 }
+
 
 </style>

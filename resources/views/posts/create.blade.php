@@ -1,32 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <div style="margin:20px;">
-    <form action="{{ route('posts.store') }}" method="post">
+<div style="margin:20px;">
+    <form action="{{ route('posts.store') }}" method="post" class="post-form">
         @csrf
-        <div class="post-form">
-            <label for="title">Title:</label>
-            <input type="text" name="title" required>
+        <label for="title">Title:</label>
+        <input type="text" name="title" required class="form-input">
+        <br>
+        <label for="content">Content:</label>
+        <textarea name="content" required class="form-input"></textarea>
+        <br>
+        <label for="publish_option">Publish Option:</label>
+        <select name="publish_option" id="publish_option" class="form-input">
+            <option value="now">Publish Now</option>
+            <option value="scheduled">Schedule for Later</option>
+        </select>
+        <br>
+        <div id="publish_date_input">
+            <label for="publish_date">Publish Date:</label>
+            <input type="datetime-local" name="publish_date" class="form-input">
             <br>
-            <label for="content">Content:</label>
-            <textarea name="content" required></textarea>
-            <br>
-            <label for="publish_option">Publish Option:</label>
-            <select name="publish_option" id="publish_option">
-                <option value="now">Publish Now</option>
-                <option value="scheduled">Schedule for Later</option>
-            </select>
-            <br>
-            <div id="publish_date_input">
-                <label for="publish_date">Publish Date:</label>
-                <input type="datetime-local" name="publish_date">
-                <br>
-            </div>
-            <button type="submit">Create Post</button>
         </div>
+        <button type="submit" class="btn-primary">Create Post</button>
     </form>
 
     <h2>Unpublished Posts (Queue)</h2>
+    
         @foreach($unpublishedPosts as $post)
             <div class="post-container">
                 <div class="post-content">
@@ -44,46 +43,69 @@
                     <form action="{{ route('posts.schedule', $post->id) }}" method="post">
                         @csrf
                         @method('patch')
-                        <button type="submit">Publish Now</button>
+                        <button type="submit" class="btn-secondary">Publish Now</button>
                     </form>
 
                     <form action="{{ route('posts.edit', $post) }}" method="get">
-                        <button type="submit">✏️</button>
+                        <button type="submit" class="btn-edit">✏️</button>
                     </form>
 
                     <form action="{{ route('posts.updateStatus', $post) }}" method="post">
                         @csrf
                         @method('patch')
-                        <button type="submit">➕</button>
+                        <button type="submit" class="btn-update">➕</button>
                     </form>
 
                     <form action="{{ route('posts.destroy', $post) }}" method="post">
                         @csrf
                         @method('delete')
-                        <button type="submit">❌</button>
+                        <button type="submit" class="btn-delete">❌</button>
                     </form>
                 </div>
             </div>
         @endforeach
-    </div>
+</div>
+
     <script>
         document.getElementById('publish_option').addEventListener('change', function () {
             var publishDateInput = document.getElementById('publish_date_input');
             publishDateInput.style.display = (this.value === 'scheduled') ? 'block' : 'none';
         });
     </script>
-
 @endsection
 
 <style>
     .post-form {
         margin-bottom: 20px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
     .post-container {
         border: 1px solid #ccc;
         padding: 10px;
         margin-bottom: 10px;
+        border-radius: 8px;
     }
 
     .post-content {
@@ -95,13 +117,33 @@
         margin-bottom: 10px;
     }
 
-    .body{
-        padding: 10px
-    }
-
     .post-actions {
         display: flex;
         gap: 20px;
         justify-content: start;
+    }
+
+    .btn-secondary,
+    .btn-edit,
+    .btn-update,
+    .btn-delete {
+        background-color: #3498db;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-edit {
+        background-color: #f39c12;
+    }
+
+    .btn-update {
+        background-color: #2ecc71;
+    }
+
+    .btn-delete {
+        background-color: #e74c3c;
     }
 </style>

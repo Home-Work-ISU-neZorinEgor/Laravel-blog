@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +9,9 @@
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
+
 <body>
+
     <div class="header">
         <div class="nav-container">
             <nav>
@@ -22,43 +25,44 @@
         @yield('content')
     </div>
 </body>
+
 </html>
 
 
-    <style>
+<style>
+    /* styles.css */
 
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
-    padding: 0; 
+    padding: 0;
 }
 
 .header {
-    background-color: #007bff;
+    background-color: #333;
     color: #fff;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    width: 95%;
+    margin: 0 auto;
 }
 
 nav {
     display: flex;
+    gap: 20px;
+    justify-content: end;
 }
 
 nav a {
-    margin-right: 15px;
-    text-decoration: none;
-    font-weight: bold;
     color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 4px;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    background-color: #555;
 }
-
-    </style>
+</style>

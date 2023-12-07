@@ -21,7 +21,7 @@
             <input type="datetime-local" name="publish_date" class="form-input">
             <br>
         </div>
-        <button type="submit" class="btn-primary">Create Post</button>
+        <button type="submit" class="btn-primary">Create Post ✍🏼</button>
     </form>
 
     <h2>Unpublished Posts (Queue)</h2>
@@ -89,7 +89,7 @@
     }
 
     .btn-primary {
-        background-color: #4caf50;
+        background-color: #2ecc71;
         color: #fff;
         padding: 10px 15px;
         border: none;

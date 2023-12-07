@@ -7,7 +7,6 @@
 
     <title>Blog App</title>
 
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 
 <body>
